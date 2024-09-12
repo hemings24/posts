@@ -1,0 +1,160 @@
+new laravel project:
+cd d:\coding\code\email+website\website\laravel\posts
+laravel new posts-tailwind
+cd posts-tailwind
+
+database:
+mysql -uroot -p -e "CREATE DATABASE posts"
+php artisan migrate:install
+php artisan migrate
+
+migration/model post:
+php artisan make:model Post -m -f
+database\migrations\create_posts_table (new)
+php artisan migrate
+
+migration/model user:
+php artisan make:migration add_username_to_users_table
+database\migrations\add_username_to_users_table (edit)
+php artisan migrate
+
+migration/model like:
+php artisan make:migration create_likes_table --create=likes
+database\migrations\create_likes_table (new)
+php artisan migrate
+php artisan make:migration add_soft_deletes_to_likes_table --table=likes
+database\migrations\add_soft_deletes_to_likes_table
+php artisan migrate
+php artisan make:model Like
+
+factories:
+database\factories\PostFactory (edit)
+database\factories\UserFactory (edit)
+
+database seed:
+database\seeders\DatabaseSeeder (edit)
+php artisan db:seed / php artisan migrate:fresh --seed
+
+
+controllers:
+php artisan make:controller DashboardController
+php artisan make:controller PostController
+php artisan make:controller PostLikeController
+php artisan make:controller UserPostController
+php artisan make:controller Auth\LoginController
+php artisan make:controller Auth\LogoutController
+php artisan make:controller Auth\RegisterController
+
+
+routes:
+routes\web
+
+
+tailwind(install):
+https://tailwindcss.com/docs/guides/laravel
+npm install -D tailwindcss@^2.2.19 postcss autoprefixer
+npx tailwindcss@^2.2.19 init
+https://stackoverflow.com/questions/70543409/how-to-install-complete-tailwind-css-properties-in-laravel-8
+
+bootstrap(copy):
+public\css\bootstrap.min.css
+public\css\custom.css
+public\css\jasny-bootstrap.min.css
+public\js\bootstrap.min.js
+public\js\jasny-bootstrap.min.js
+public\js\jquery.min.js
+public\js\popper.min.js
+
+
+layout:
+resources\views\layouts\main.blade (new)
+
+home:
+resources\views\welcome.blade (del)
+resources\views\home.blade (new)
+
+dashboard:
+app\Http\Controllers\DashboardController (new)
+resources\views\dashboard.blade (new)
+
+
+register:
+app\Http\Controllers\Auth\RegisterController (edit)
+resources\views\auth\register.blade (new)
+app\Models\User (edit)
+
+login:
+app\Http\Controllers\LoginController (new)
+resources\views\auth\login.blade (new)
+
+logout:
+app\Http\Controllers\LogoutController (new)
+
+
+post form / pagination:
+app\Models\Post (new)
+app\Models\User (edit)
+php artisan vendor:publish
+choose <laravel-pagination>
+app\Providers\AppServiceProvider
+app\Http\Controllers\PostController (new)
+resources\views\posts\index.blade (new)
+resources\views\vendor\pagination\bootstrap-4.blade
+<nav class="mt-4">
+<ul class="pagination justify-content-center">
+
+
+blade components:
+php artisan make:component Post
+app\View\Components\Post (new)
+resources\views\components\post.blade (new)
+
+like/unlike posts:
+app\Http\Controllers\PostLikeController (new)
+app\Models\Like (new)
+
+
+authorization:
+php artisan make:policy PostPolicy
+app\Policies\PostPolicy (new)
+app\Providers\AuthServiceProvider (edit)
+
+
+user profile/posts page:
+app\Http\Controllers\UserPostController (new)
+resources\views\users\posts\index.blade (new)
+
+
+single post page:
+resources\views\posts\show.blade (new)
+
+
+sending email / post likes:
+mailtrap.io/inboxes add inbox
+php artisan make:mail --help
+php artisan make:mail PostLiked --markdown=emails.posts.post_liked
+app\Mail\PostLiked (new)
+resources\views\emails\posts\post_liked.blade (new)
+.env (edit)
+
+
+install composer:
+composer require barryvdh/laravel-debugbar --dev
+
+
+summary:
+
+app\Models\Post
+app\Models\Like
+app\Models\User
+
+app\Http\Controllers\PostController
+app\Http\Controllers\PostLikeController
+app\Http\Controllers\UserPostController
+routes\web
+
+app\Providers\AuthServiceProvider
+app\Policies\PostPolicy
+
+app\View\Components\Post
+resources\views\components\post.blade
