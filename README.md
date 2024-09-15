@@ -3,7 +3,7 @@ Laravel + Tailwind CRUD for User Posts
 
 1. Download posts
 2. Copy folder to Laravel projects folder
-3. Copy posts\.env.example to posts\.env
+3. Copy posts\\.env.example to posts\\.env
 4. Update .env MAIL_X values to preferred SMTP settings
 5. CLI: cd posts
 6. composer install
